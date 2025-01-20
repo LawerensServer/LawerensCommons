@@ -1,0 +1,4 @@
+name: LawerensCommons
+version: '1.0'
+main: com.lawerens.commons.LawerensCommons
+api-version: '1.20'
