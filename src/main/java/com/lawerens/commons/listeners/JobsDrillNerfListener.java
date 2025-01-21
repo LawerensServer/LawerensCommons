@@ -14,6 +14,7 @@ public class JobsDrillNerfListener implements Listener {
 
     @EventHandler
     public void onMinerJob(JobsPrePaymentEvent e){
+        if(VehiclesMain.getPlugin().getPlayerVehicle((Player) e.getPlayer()) == null) return;
         if(e.getActionInfo().getType() == ActionType.BREAK && e.getJob() == Jobs.getJob("Minero") && VehiclesMain.getPlugin().getPlayerVehicle((Player) e.getPlayer()).getType() == VehicleType.DRILL){
             e.setAmount(e.getAmount() / 10);
         }
@@ -21,6 +22,7 @@ public class JobsDrillNerfListener implements Listener {
 
     @EventHandler
     public void onMinerExpGain(JobsExpGainEvent e){
+        if(VehiclesMain.getPlugin().getPlayerVehicle((Player) e.getPlayer()) == null) return;
         if(e.getActionInfo().getType() == ActionType.BREAK && e.getJob() == Jobs.getJob("Minero") && VehiclesMain.getPlugin().getPlayerVehicle((Player) e.getPlayer()).getType() == VehicleType.DRILL){
             e.setExp(e.getExp() / 10);
         }
