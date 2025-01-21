@@ -4,12 +4,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class PlayerInOutBoundsWorldListener implements Listener {
 
     @EventHandler
-    public void onMove(PlayerMoveEvent e){
+    public void onMove(PlayerTeleportEvent e){
         if(isOutsideRadius(e.getTo(), 15000)){
             e.setTo(new Location(
                     Bukkit.getWorld("world"),
