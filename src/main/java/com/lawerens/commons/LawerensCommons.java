@@ -12,14 +12,10 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import lombok.Getter;
-import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
-import xyz.lawerens.utils.ItemBuilder;
 
 public final class LawerensCommons extends JavaPlugin {
 
@@ -42,9 +38,12 @@ public final class LawerensCommons extends JavaPlugin {
         }
     }
 
+    @SuppressWarnings("DataFlowIssue")
     @Override
     public void onEnable() {
         INSTANCE = this;
+
+        CustomItemsListener.totemTriadaKey = new NamespacedKey(this, "totem_usos");
 
         getCommand("lrr").setExecutor(new RussianRouletteRoomCommand());
         getCommand("lrr").setTabCompleter(new RussianRouletteRoomCommand());
@@ -55,7 +54,8 @@ public final class LawerensCommons extends JavaPlugin {
 
         dc.add("totem", player -> {
 
-            ItemStack it = CustomItemsListener.setInitialTotemTriadaUses(CustomItemsListener.getTotemTriadaItem());
+            ItemStack it = CustomItemsListener.getTotemTriadaItem(3);
+            CustomItemsListener.setReamingTotemTriadaUses(it, 3);
 
             player.getInventory().addItem(
                     it

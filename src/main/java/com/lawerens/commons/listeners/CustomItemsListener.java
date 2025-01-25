@@ -37,12 +37,12 @@ public class CustomItemsListener implements Listener {
     public static StateFlag flag;
     private final List<Block> glassBlocks = new ArrayList<>();
     private final List<UUID> jaulasCreated = new ArrayList<>();
-    public final static NamespacedKey totemTriadaKey = new NamespacedKey(LawerensCommons.get(), "totem_usos");
+    public static NamespacedKey totemTriadaKey;
 
-    public static ItemStack getTotemTriadaItem(){
+    public static ItemStack getTotemTriadaItem(int uses){
 
         return new ItemBuilder(Material.TOTEM_OF_UNDYING)
-                .setDisplayName("#ccff2dTotem Tríada (3 usos)")
+                .setDisplayName("#ccff2dTotem Tríada ("+uses+" usos)")
 
                 .addLore(" ")
 
@@ -52,19 +52,9 @@ public class CustomItemsListener implements Listener {
                 .addLore("#ccff2d▍ &fveces seguidas.")
                 .addLore(" ")
                 .addLore("#ccff2d▍ Información:")
-                .addLore("#ccff2d▍ &fUsos restantes: &e3")
+                .addLore("#ccff2d▍ &fUsos restantes: &e"+uses+"")
 
                 .build();
-    }
-
-    public static ItemStack setInitialTotemTriadaUses(ItemStack item){
-        item = item.clone();
-        ItemMeta meta = item.getItemMeta();
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(CustomItemsListener.totemTriadaKey, PersistentDataType.INTEGER, 3);
-
-        item.setItemMeta(meta);
-        return item;
     }
 
     private boolean isTotemTriada(ItemStack item) {
@@ -87,19 +77,21 @@ public class CustomItemsListener implements Listener {
 
         int reamingUses = getReamingTotemTriadaUses(item);
         if (reamingUses > 1) {
-            setReamingTotemTriadaUses(item, reamingUses - 1);
-            //p.getInventory().setItem(e.getHand(), get+);
+            ItemStack newItem = getTotemTriadaItem(reamingUses - 1);
+
+            setReamingTotemTriadaUses(newItem, reamingUses - 1);
+            p.getInventory().setItem(e.getHand(), newItem);
         }
     }
 
-    private void setReamingTotemTriadaUses(ItemStack item, int i) {
+    public static void setReamingTotemTriadaUses(ItemStack item, int i) {
         ItemMeta meta = item.getItemMeta();
         PersistentDataContainer container = meta.getPersistentDataContainer();
         container.set(totemTriadaKey, PersistentDataType.INTEGER, i);
         item.setItemMeta(meta);
     }
 
-    private int getReamingTotemTriadaUses(ItemStack item) {
+    private static int getReamingTotemTriadaUses(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         PersistentDataContainer container = meta.getPersistentDataContainer();
         return container.getOrDefault(totemTriadaKey, PersistentDataType.INTEGER, 3);
@@ -111,6 +103,7 @@ public class CustomItemsListener implements Listener {
         Player p = e.getPlayer();
         if(e.getItem().isSimilar(ItemEdit.get().getServerStorage().getItem("zanahoria_eterna"))){
             ItemStack newI = ItemEdit.get().getServerStorage().getItem("zanahoria_eterna");
+            assert newI != null;
             newI.setAmount(e.getItem().getAmount());
             e.setReplacement(newI);
         }
