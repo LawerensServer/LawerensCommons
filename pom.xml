@@ -79,6 +79,10 @@
             <id>essentialsx</id>
             <url>https://repo.essentialsx.net/releases/</url>
         </repository>
+        <repository>
+            <id>opencollab-snapshot</id>
+            <url>https://repo.opencollab.dev/main/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -92,6 +96,12 @@
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
             <version>7.0.9</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.geysermc.floodgate</groupId>
+            <artifactId>api</artifactId>
+            <version>2.2.3-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -128,7 +138,7 @@
         <dependency>
             <groupId>xyz.lawerens</groupId>
             <artifactId>Lawerens</artifactId>
-            <version>1.0</version>
+            <version>1.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
