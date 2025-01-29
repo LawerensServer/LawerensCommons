@@ -11,11 +11,15 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import emanondev.itemedit.ItemEdit;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityResurrectEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -30,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.lawerens.commons.utils.CommonsUtils.sendMessageWithPrefix;
 import static xyz.lawerens.utils.LawerensUtils.sendMessage;
 
 public class CustomItemsListener implements Listener {
@@ -38,6 +43,7 @@ public class CustomItemsListener implements Listener {
     private final List<Block> glassBlocks = new ArrayList<>();
     private final List<UUID> jaulasCreated = new ArrayList<>();
     public static NamespacedKey totemTriadaKey;
+    public static NamespacedKey explosiveArrowKey;
 
     public static ItemStack getTotemTriadaItem(int uses){
 
@@ -107,6 +113,71 @@ public class CustomItemsListener implements Listener {
             newI.setAmount(e.getItem().getAmount());
             e.setReplacement(newI);
         }
+
+        if(e.getItem().isSimilar(ItemEdit.get().getServerStorage().getItem("manzana_eterna"))){
+            ItemStack newI = ItemEdit.get().getServerStorage().getItem("manzana_eterna");
+            assert newI != null;
+            newI.setAmount(e.getItem().getAmount());
+            e.setReplacement(newI);
+        }
+    }
+
+    @EventHandler
+    public void onProjectileHit(ProjectileHitEvent event) {
+        if (!(event.getEntity() instanceof Arrow arrow)) return;
+
+        PersistentDataContainer data = arrow.getPersistentDataContainer();
+        if (!data.has(explosiveArrowKey, PersistentDataType.BYTE)) return;
+
+        Location impactLocation = arrow.getLocation();
+        impactLocation.getWorld().createExplosion(impactLocation, 2.0f, false, false);
+
+        arrow.remove();
+    }
+
+    @EventHandler
+    public void onDamageByEntity(EntityDamageByEntityEvent e){
+        if (!(e.getEntity() instanceof Arrow arrow)) return;
+
+        PersistentDataContainer data = arrow.getPersistentDataContainer();
+        if (!data.has(explosiveArrowKey, PersistentDataType.BYTE)) return;
+
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onShootBow(EntityShootBowEvent e){
+        if (!(e.getEntity() instanceof Player player)) return;
+
+        ItemStack bow = e.getBow();
+        if (bow != null && bow.isSimilar(ItemEdit.get().getServerStorage().getItem("arco_explosivo"))) {
+
+           e.setConsumeItem(false);
+
+            ItemStack arrowItem = findExplosiveArrow(player);
+            if (arrowItem == null) {
+                sendMessageWithPrefix(player, "ITEMS ESPECIALES", "&c¡Solo puedes usar un arco explosivo con &c&lFlechas explosivas&c!");
+                e.setCancelled(true);
+                return;
+            }
+
+            if (e.getProjectile() instanceof Arrow arrow) {
+                PersistentDataContainer data = arrow.getPersistentDataContainer();
+                data.set(explosiveArrowKey, PersistentDataType.BYTE, (byte) 1);
+
+                arrowItem.setAmount(arrowItem.getAmount() - 1);
+
+            }
+        }
+    }
+
+    private ItemStack findExplosiveArrow(Player player) {
+        for (ItemStack item : player.getInventory().getContents()) {
+            if (item != null && item.isSimilar(ItemEdit.get().getServerStorage().getItem("flecha_explosiva"))) {
+                return item;
+            }
+        }
+        return null;
     }
 
     @EventHandler

@@ -6,10 +6,7 @@ import com.lawerens.commons.commands.DebugCommand;
 import com.lawerens.commons.commands.RussianRouletteRequestCommand;
 import com.lawerens.commons.commands.RussianRouletteRoomCommand;
 import com.lawerens.commons.configuration.ConfigManager;
-import com.lawerens.commons.listeners.CustomItemsListener;
-import com.lawerens.commons.listeners.JobsDrillNerfListener;
-import com.lawerens.commons.listeners.PlayerInOutBoundsWorldListener;
-import com.lawerens.commons.listeners.RussianRouletteListener;
+import com.lawerens.commons.listeners.*;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
@@ -17,13 +14,13 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static com.lawerens.commons.utils.CommonsUtils.sendMessageWithPrefix;
 
@@ -58,6 +55,7 @@ public final class LawerensCommons extends JavaPlugin {
         essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
 
         CustomItemsListener.totemTriadaKey = new NamespacedKey(this, "totem_usos");
+        CustomItemsListener.explosiveArrowKey = new NamespacedKey(this, "explosive_arrow");
 
         getCommand("lrr").setExecutor(new RussianRouletteRoomCommand());
         getCommand("lrr").setTabCompleter(new RussianRouletteRoomCommand());
@@ -87,7 +85,7 @@ public final class LawerensCommons extends JavaPlugin {
                     return;
                 }
 
-                for(OfflinePlayer p : Bukkit.getOnlinePlayers()){
+                for(OfflinePlayer p : Bukkit.getOfflinePlayers()){
                     User user = essentials.getOfflineUser(p.getName());
                     if(user == null) return;
                     List<String> homes = new ArrayList<>();
@@ -105,12 +103,27 @@ public final class LawerensCommons extends JavaPlugin {
             }
         });
 
+        dc.add("rankall", (player, args) -> {
+            if(args.length == 3){
+                String group = args[1];
+                String duration = args[2];
+
+                for(Player p : Bukkit.getOnlinePlayers()){
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user "+p.getName()+" parent addtemp "+group+" "+duration);
+                }
+            }else{
+                sendMessageWithPrefix(player, "DEPURACIÓN", "&CUso incorrecto. &fUsa /ldebug rankall [rango] [duracion: 1d, 1mo, 30m, 150s]");
+            }
+        });
+
         getCommand("ldebug").setExecutor(dc);
 
         getServer().getPluginManager().registerEvents(new JobsDrillNerfListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerInOutBoundsWorldListener(), this);
         getServer().getPluginManager().registerEvents(new CustomItemsListener(), this);
         getServer().getPluginManager().registerEvents(new RussianRouletteListener(), this);
+        getServer().getPluginManager().registerEvents(new NetherMobsListener(), this);
+        getServer().getPluginManager().registerEvents(new PvPLIstener(), this);
 
         configManager = new ConfigManager(this);
         configManager.loadRussianRoulettesRooms();
