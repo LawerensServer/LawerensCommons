@@ -18,7 +18,7 @@ public class NetherMobsListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onCreatureSpawn(CreatureSpawnEvent e){
         if(e.getLocation().getWorld().getName().equalsIgnoreCase("Survival_nether") && e.getLocation().getY() >= 128)
             e.setCancelled(true);

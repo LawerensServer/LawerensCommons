@@ -16,10 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityResurrectEvent;
-import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -42,6 +39,7 @@ public class CustomItemsListener implements Listener {
     public static StateFlag flag;
     private final List<Block> glassBlocks = new ArrayList<>();
     private final List<UUID> jaulasCreated = new ArrayList<>();
+    private final List<Location> bowExplosives = new ArrayList<>();
     public static NamespacedKey totemTriadaKey;
     public static NamespacedKey explosiveArrowKey;
 
@@ -130,7 +128,8 @@ public class CustomItemsListener implements Listener {
         if (!data.has(explosiveArrowKey, PersistentDataType.BYTE)) return;
 
         Location impactLocation = arrow.getLocation();
-        impactLocation.getWorld().createExplosion(impactLocation, 2.0f, false, false);
+        bowExplosives.add(impactLocation);
+        impactLocation.getWorld().createExplosion(impactLocation, 1.8f, true, true);
 
         arrow.remove();
     }
@@ -184,7 +183,7 @@ public class CustomItemsListener implements Listener {
     public void onInteract(PlayerInteractEvent e){
         Player p = e.getPlayer();
         if(e.getItem() == null) return;
-        if(e.getItem().isSimilar(ItemEdit.get().getServerStorage().getItem("jaula"))) {
+        if(e.getItem().isSimilar(ItemEdit.get().getServerStorage().getItem("jaula")) && e.getAction().isRightClick()) {
             e.setCancelled(true);
             if (jaulasCreated.contains(p.getUniqueId())) {
                 sendMessage(p, Lawerens.COLOR + "JAULA &8» &c¡No puedes crear más de una jaula a la vez!");

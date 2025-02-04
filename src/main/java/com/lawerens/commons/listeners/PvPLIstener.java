@@ -1,9 +1,12 @@
 package com.lawerens.commons.listeners;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
@@ -13,12 +16,19 @@ import static com.lawerens.commons.utils.CommonsUtils.sendMessageWithPrefix;
 
 public class PvPLIstener implements Listener {
 
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent e){
+        if(e.getDamager() instanceof Arrow){
+            e.setDamage(e.getDamage()*0.6);
+        }
+    }
+
     @EventHandler
     public void onPlayerToggleFlight(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
         ItemStack chestplate = player.getInventory().getChestplate();
-        if (chestplate != null && chestplate.getType() == Material.ELYTRA && player.getWorld().getName().equalsIgnoreCase("world")) {
+        if (chestplate != null && chestplate.getType() == Material.ELYTRA && (player.getWorld().getName().equalsIgnoreCase("Yate") || player.getWorld().getName().equalsIgnoreCase("world"))) {
             Inventory inventory = player.getInventory();
 
             for (int i = 0; i < inventory.getSize(); i++) {
@@ -27,7 +37,6 @@ public class PvPLIstener implements Listener {
                     player.getInventory().setChestplate(item);
                     inventory.setItem(i, chestplate);
                     sendMessageWithPrefix(player, "JUGADOR", "&fTu &eÉlitra&f ha sido reemplazada por una pechera. En este lugar no la puedes usar");
-
                     return;
                 }
             }

@@ -10,9 +10,9 @@ public class PlayerInOutBoundsWorldListener implements Listener {
 
     @EventHandler
     public void onMove(PlayerTeleportEvent e){
-        if(isOutsideRadius(e.getTo(), 6000)){
+        /*if(isOutsideRadius(e.getTo(), 6000)){
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "spawn "+e.getPlayer().getName());
-        }
+        }*/
     }
 
     public static boolean isOutsideRadius(Location location, double radius) {

@@ -3,10 +3,12 @@ package com.lawerens.commons;
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 import com.lawerens.commons.commands.DebugCommand;
+import com.lawerens.commons.commands.BloodMoonCommand;
 import com.lawerens.commons.commands.RussianRouletteRequestCommand;
 import com.lawerens.commons.commands.RussianRouletteRoomCommand;
 import com.lawerens.commons.configuration.ConfigManager;
 import com.lawerens.commons.listeners.*;
+import com.lawerens.commons.model.MoonsManager;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
@@ -36,6 +38,9 @@ public final class LawerensCommons extends JavaPlugin {
     @Getter
     public static Essentials essentials;
 
+    @Getter
+    public static MoonsManager moonsManager;
+
 
     @Override
     public void onLoad() {
@@ -62,6 +67,32 @@ public final class LawerensCommons extends JavaPlugin {
         getCommand("rr").setExecutor(new RussianRouletteRequestCommand());
         getCommand("rr").setTabCompleter(new RussianRouletteRequestCommand());
 
+        DebugCommand dc = getDebugCommand();
+
+        getCommand("ldebug").setExecutor(dc);
+
+        getServer().getPluginManager().registerEvents(new JobsDrillNerfListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerInOutBoundsWorldListener(), this);
+        getServer().getPluginManager().registerEvents(new CustomItemsListener(), this);
+        getServer().getPluginManager().registerEvents(new RussianRouletteListener(), this);
+        getServer().getPluginManager().registerEvents(new NetherMobsListener(), this);
+        getServer().getPluginManager().registerEvents(new PvPLIstener(), this);
+        getServer().getPluginManager().registerEvents(new YateListener(), this);
+        getServer().getPluginManager().registerEvents(new ZonesTitleListener(), this);
+
+        configManager = new ConfigManager(this);
+        configManager.loadRussianRoulettesRooms();
+
+        moonsManager = new MoonsManager();
+
+        getCommand("bloodmoon").setTabCompleter(new BloodMoonCommand(moonsManager.getBloodMoon()));
+        getCommand("bloodmoon").setExecutor(new BloodMoonCommand(moonsManager.getBloodMoon()));
+
+        MoonsManager.key = new NamespacedKey(this, "bossbarmoons");
+        getServer().getPluginManager().registerEvents(moonsManager.getBloodMoon(), this);
+    }
+
+    private static DebugCommand getDebugCommand() {
         DebugCommand dc = new DebugCommand();
 
         dc.add("totem", (player, args) -> {
@@ -115,22 +146,14 @@ public final class LawerensCommons extends JavaPlugin {
                 sendMessageWithPrefix(player, "DEPURACIÓN", "&CUso incorrecto. &fUsa /ldebug rankall [rango] [duracion: 1d, 1mo, 30m, 150s]");
             }
         });
-
-        getCommand("ldebug").setExecutor(dc);
-
-        getServer().getPluginManager().registerEvents(new JobsDrillNerfListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerInOutBoundsWorldListener(), this);
-        getServer().getPluginManager().registerEvents(new CustomItemsListener(), this);
-        getServer().getPluginManager().registerEvents(new RussianRouletteListener(), this);
-        getServer().getPluginManager().registerEvents(new NetherMobsListener(), this);
-        getServer().getPluginManager().registerEvents(new PvPLIstener(), this);
-
-        configManager = new ConfigManager(this);
-        configManager.loadRussianRoulettesRooms();
+        return dc;
     }
 
     @Override
     public void onDisable() {
+        Bukkit.getScheduler().cancelTasks(this);
+
         HandlerList.unregisterAll(this);
     }
+
 }
