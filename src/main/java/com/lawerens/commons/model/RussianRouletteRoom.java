@@ -1,7 +1,7 @@
 package com.lawerens.commons.model;
 
 import com.lawerens.commons.LawerensCommons;
-import com.lawerens.commons.utils.CommonsUtils;
+import com.lawerens.core.LawerensUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -32,9 +32,9 @@ public class RussianRouletteRoom {
     }
 
     public static RussianRouletteRoom fromConfig(ConfigurationSection s){
-        Location firstSeat = CommonsUtils.readLocation(s, "firstSeat");
-        Location secondSeat = CommonsUtils.readLocation(s, "secondSeat");
-        Location centerBlock = CommonsUtils.readLocation(s, "centerBlock");
+        Location firstSeat = LawerensUtils.readLocation(s, "firstSeat");
+        Location secondSeat = LawerensUtils.readLocation(s, "secondSeat");
+        Location centerBlock = LawerensUtils.readLocation(s, "centerBlock");
 
         return new RussianRouletteRoom(
                 s.getName(),

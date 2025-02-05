@@ -22,8 +22,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
-import static com.lawerens.commons.utils.CommonsUtils.sendCustomMessageWithPrefix;
-import static com.lawerens.commons.utils.CommonsUtils.sendTitle;
+import static com.lawerens.core.LawerensUtils.sendCustomMessageWithPrefix;
+import static com.lawerens.core.LawerensUtils.sendTitle;
 
 @Data
 public final class BloodMoon implements Listener {
@@ -66,7 +66,7 @@ public final class BloodMoon implements Listener {
                         daysToTheNext = 10;
                     }
 
-                    MoonsManager.toPlayersInSurvival(player -> sendCustomMessageWithPrefix(player, "#22ccff", "LUNA SANGRIENTA", "&fFaltan #ff0000" + daysToTheNext + " noches &fpara la siguiente luna sangrienta."));
+                    MoonsManager.toPlayersInSurvival(player -> sendCustomMessageWithPrefix(player, "#22ccff&l", "LUNA SANGRIENTA", "&fFaltan #ff0000" + daysToTheNext + " noches &fpara la siguiente luna sangrienta."));
                 }
             }
         }.runTaskTimer(LawerensCommons.get(), 0, 1200); // 1200 ticks = 1 minuto
@@ -88,7 +88,7 @@ public final class BloodMoon implements Listener {
 
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             bossBar.addPlayer(onlinePlayer);
-            MoonsManager.toPlayersInSurvival(player -> sendCustomMessageWithPrefix(player, "#22ccff", "LUNA SANGRIENTA", "&fLa luna sangrienta ha comenzado..."));
+            MoonsManager.toPlayersInSurvival(player -> sendCustomMessageWithPrefix(player, "#22ccff&l", "LUNA SANGRIENTA", "&fLa luna sangrienta ha comenzado..."));
         }
         spawnMobs();
         scheduleEnd();
@@ -102,7 +102,7 @@ public final class BloodMoon implements Listener {
                 if (bossBar.getProgress() > 0) {
                     i--;
                     bossBar.setProgress(Math.max(0, bossBar.getProgress() - (1.0 / 7.0)));
-                    MoonsManager.toPlayersInSurvival(player -> sendCustomMessageWithPrefix(player, "#22ccff", "LUNA SANGRIENTA", "&fLa luna sangrienta terminará en #ff0000" + i + " minutos&f."));
+                    MoonsManager.toPlayersInSurvival(player -> sendCustomMessageWithPrefix(player, "#22ccff&l", "LUNA SANGRIENTA", "&fLa luna sangrienta terminará en #ff0000" + i + " minutos&f."));
                 } else {
                     end();
                     reset();

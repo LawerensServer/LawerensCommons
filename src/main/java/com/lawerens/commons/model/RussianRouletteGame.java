@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import static com.lawerens.commons.utils.CommonsUtils.sendMessageWithPrefix;
+import static com.lawerens.core.LawerensUtils.sendMessageWithPrefix;
+
 
 @Data
 public class RussianRouletteGame {

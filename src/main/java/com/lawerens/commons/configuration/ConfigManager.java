@@ -2,7 +2,7 @@ package com.lawerens.commons.configuration;
 
 import com.lawerens.commons.LawerensCommons;
 import com.lawerens.commons.model.RussianRouletteRoom;
-import com.lawerens.commons.utils.CommonsUtils;
+import com.lawerens.core.LawerensUtils;
 import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -29,9 +29,9 @@ public class ConfigManager {
     public void updateRussianRouletteRoom(RussianRouletteRoom room) {
         ConfigurationSection sec = russianRouletteConfig.asConfig().createSection("Rooms." + room.getName());
 
-        CommonsUtils.writeLocation(sec, "firstSeat", room.getFirstSeat());
-        CommonsUtils.writeLocation(sec, "secondSeat", room.getSecondSeat());
-        CommonsUtils.writeLocation(sec, "centerBlock", room.getCenterBlock());
+        LawerensUtils.writeLocation(sec, "firstSeat", room.getFirstSeat());
+        LawerensUtils.writeLocation(sec, "secondSeat", room.getSecondSeat());
+        LawerensUtils.writeLocation(sec, "centerBlock", room.getCenterBlock());
 
         russianRouletteConfig.saveConfig();
     }

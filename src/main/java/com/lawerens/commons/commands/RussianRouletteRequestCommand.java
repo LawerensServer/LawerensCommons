@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static com.lawerens.commons.utils.CommonsUtils.sendMessageWithPrefix;
+import static com.lawerens.core.LawerensUtils.sendMessageWithPrefix;
 
 public class RussianRouletteRequestCommand implements TabExecutor {
     @Override

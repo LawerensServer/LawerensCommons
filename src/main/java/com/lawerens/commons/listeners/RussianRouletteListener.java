@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
-import static com.lawerens.commons.utils.CommonsUtils.sendMessageWithPrefix;
+import static com.lawerens.core.LawerensUtils.sendMessageWithPrefix;
 
 public class RussianRouletteListener implements Listener {
 
@@ -21,7 +21,7 @@ public class RussianRouletteListener implements Listener {
     public void onPickup(PlayerPickupItemEvent e){
         if(RussianRouletteGame.getGame(e.getPlayer()).isPresent()){
             e.setCancelled(true);
-            sendMessageWithPrefix(e.getPlayer(), "RULETA RUSA", "&c¡No recojer items aquí!");
+            sendMessageWithPrefix(e.getPlayer(), "&#FF0000&lR&#FF0000&lR", "&c¡No recojer items aquí!");
         }
     }
 
@@ -29,7 +29,7 @@ public class RussianRouletteListener implements Listener {
     public void onDrop(PlayerDropItemEvent e){
         if(RussianRouletteGame.getGame(e.getPlayer()).isPresent()){
             e.setCancelled(true);
-            sendMessageWithPrefix(e.getPlayer(), "RULETA RUSA", "&c¡No puedes tirar tu apuesta!");
+            sendMessageWithPrefix(e.getPlayer(), "&#FF0000&lR&#FF0000&lR", "&c¡No puedes tirar tu apuesta!");
         }
     }
 
@@ -38,7 +38,7 @@ public class RussianRouletteListener implements Listener {
         if(e.getDismounted().getType() == EntityType.ARMOR_STAND && e.getEntity() instanceof Player p) {
             if (RussianRouletteGame.getGame(p).isPresent()) {
                 e.setCancelled(true);
-                sendMessageWithPrefix(p, "RULETA RUSA", "&c¡No puedes abandonar tu puesto!");
+                sendMessageWithPrefix(p, "&#FF0000&lR&#FF0000&lR", "&c¡No puedes abandonar tu puesto!");
             }
         }
     }
@@ -48,7 +48,7 @@ public class RussianRouletteListener implements Listener {
         if(e.getEntity() instanceof Player p) {
             if (RussianRouletteGame.getGame(p).isPresent()) {
                 e.setCancelled(true);
-                sendMessageWithPrefix(p, "RULETA RUSA", "&c¡No puedes hacer ese daño aquí!");
+                sendMessageWithPrefix(p, "&#FF0000&lR&#FF0000&lR", "&c¡No puedes hacer ese daño aquí!");
             }
         }
     }

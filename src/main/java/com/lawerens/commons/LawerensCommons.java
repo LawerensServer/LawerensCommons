@@ -24,7 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.lawerens.commons.utils.CommonsUtils.sendMessageWithPrefix;
+import static com.lawerens.core.LawerensUtils.sendMessageWithPrefix;
 
 public final class LawerensCommons extends JavaPlugin {
 

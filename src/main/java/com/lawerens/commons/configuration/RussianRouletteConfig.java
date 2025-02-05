@@ -1,7 +1,7 @@
 package com.lawerens.commons.configuration;
 
+import com.lawerens.core.configuration.LawerensConfig;
 import org.bukkit.plugin.Plugin;
-import xyz.lawerens.utils.configuration.LawerensConfig;
 
 public class RussianRouletteConfig extends LawerensConfig {
 

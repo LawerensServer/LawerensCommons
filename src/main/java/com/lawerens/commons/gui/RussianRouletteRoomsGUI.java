@@ -3,19 +3,19 @@ package com.lawerens.commons.gui;
 import com.lawerens.commons.LawerensCommons;
 import com.lawerens.commons.model.RussianRouletteGame;
 import com.lawerens.commons.model.RussianRouletteRoom;
+import com.lawerens.core.ItemBuilder;
+import com.lawerens.core.menu.Menu;
+import com.lawerens.core.menu.MenuButton;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.codehaus.plexus.util.StringUtils;
-import xyz.lawerens.utils.ItemBuilder;
-import xyz.lawerens.utils.menu.Menu;
-import xyz.lawerens.utils.menu.MenuButton;
 
 import java.util.function.Consumer;
 
-import static com.lawerens.commons.utils.CommonsUtils.sendMessageWithPrefix;
+import static com.lawerens.core.LawerensUtils.sendMessageWithPrefix;
 
 public class RussianRouletteRoomsGUI extends Menu {
 

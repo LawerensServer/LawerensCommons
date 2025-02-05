@@ -26,9 +26,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 
-import static com.lawerens.commons.utils.CommonsUtils.sendCustomMessageWithPrefix;
-import static com.lawerens.commons.utils.CommonsUtils.sendTitle;
-import static xyz.lawerens.utils.LawerensUtils.color;
+import static com.lawerens.core.LawerensUtils.sendCustomMessageWithPrefix;
+import static com.lawerens.core.LawerensUtils.sendTitle;
+
 
 @Getter
 @Setter

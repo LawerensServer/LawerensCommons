@@ -1,6 +1,7 @@
 package com.lawerens.commons.listeners;
 
 import com.lawerens.commons.LawerensCommons;
+import com.lawerens.core.ItemBuilder;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
@@ -24,15 +25,12 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import xyz.lawerens.Lawerens;
-import xyz.lawerens.utils.ItemBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.lawerens.commons.utils.CommonsUtils.sendMessageWithPrefix;
-import static xyz.lawerens.utils.LawerensUtils.sendMessage;
+import static com.lawerens.core.LawerensUtils.sendMessage;
+import static com.lawerens.core.LawerensUtils.sendMessageWithPrefix;
 
 public class CustomItemsListener implements Listener {
 
@@ -186,7 +184,7 @@ public class CustomItemsListener implements Listener {
         if(e.getItem().isSimilar(ItemEdit.get().getServerStorage().getItem("jaula")) && e.getAction().isRightClick()) {
             e.setCancelled(true);
             if (jaulasCreated.contains(p.getUniqueId())) {
-                sendMessage(p, Lawerens.COLOR + "JAULA &8» &c¡No puedes crear más de una jaula a la vez!");
+                sendMessageWithPrefix(p, "#FFFFFF&lJ#FFEBFB&lA#FED6F7&lU#FEC2F2&lL#FDADEE&lA", "&c¡No puedes crear más de una jaula a la vez!");
                 return;
             }
             RegionManager regionManager = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(p.getWorld()));
@@ -200,7 +198,7 @@ public class CustomItemsListener implements Listener {
     
             for (ProtectedRegion protectedRegion : set) {
                 if (protectedRegion.getFlag(flag) == StateFlag.State.DENY) {
-                    sendMessage(p, Lawerens.COLOR + "JAULA &8» &c¡No puedes generar una jaula en esta región!");
+                    sendMessageWithPrefix(p, "#FFFFFF&lJ#FFEBFB&lA#FED6F7&lU#FEC2F2&lL#FDADEE&lA", "&c¡No puedes generar una jaula en esta región!");
                     return;
                 }
             }
@@ -232,7 +230,7 @@ public class CustomItemsListener implements Listener {
                 }
             });
     
-            sendMessage(p, Lawerens.COLOR + "JAULA &8» &f¡Has creado una jaula en tu posición!");
+            sendMessageWithPrefix(p, "#FFFFFF&lJ#FFEBFB&lA#FED6F7&lU#FEC2F2&lL#FDADEE&lA", "&7¡Has creado una jaula en tu posición!");
             removeSpecificItem(p.getInventory(), e.getItem());
             UUID id = p.getUniqueId();
             jaulasCreated.add(id);
@@ -269,7 +267,7 @@ public class CustomItemsListener implements Listener {
         if(glassBlocks.contains(e.getBlock())){
             e.setCancelled(true);
             e.setDropItems(false);
-            sendMessage(e.getPlayer(), Lawerens.COLOR+"JAULA &8» &c¡Los bloques de una jaula no se pueden romper, espera a que desaparezca!");
+            sendMessageWithPrefix(e.getPlayer(), "#FFFFFF&lJ#FFEBFB&lA#FED6F7&lU#FEC2F2&lL#FDADEE&lA", "&c¡Los bloques de una jaula no se pueden romper, espera a que desaparezca!");
         }
     }
 

@@ -2,6 +2,7 @@ package com.lawerens.commons.commands;
 
 import com.lawerens.commons.LawerensCommons;
 import com.lawerens.commons.model.RussianRouletteRoom;
+import com.lawerens.core.LawerensUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -9,16 +10,13 @@ import org.bukkit.entity.Player;
 import org.codehaus.plexus.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.lawerens.utils.LawerensUtils;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static com.lawerens.commons.utils.CommonsUtils.sendMessageWithPrefix;
-import static xyz.lawerens.Lawerens.COLOR;
-import static xyz.lawerens.utils.LawerensUtils.*;
+import static com.lawerens.core.LawerensUtils.*;
 
 public class RussianRouletteRoomCommand implements TabExecutor {
 
@@ -28,7 +26,7 @@ public class RussianRouletteRoomCommand implements TabExecutor {
 
     private final List<String> help = Stream.of(
             " ",
-            COLOR+"Ayuda Ruleta Rusa",
+            "&a&LAyuda Ruleta Rusa",
             " ",
             " &7- &f/lrr createroom <nombre> &7| &aCrea un cuarto para una ruleta rusa",
             " &7- &f/lrr delete <nombre> &7| &aElimina un cuarto de la ruleta rusa",

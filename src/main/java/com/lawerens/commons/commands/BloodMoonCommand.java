@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
 
-import static xyz.lawerens.utils.LawerensUtils.sendMessage;
+import static com.lawerens.core.LawerensUtils.sendMessage;
 
 public class BloodMoonCommand implements TabExecutor {
     

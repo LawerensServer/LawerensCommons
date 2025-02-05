@@ -1,5 +1,6 @@
 package com.lawerens.commons.listeners;
 
+import com.lawerens.core.LawerensUtils;
 import com.sk89q.worldguard.protection.flags.BooleanFlag;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag;
@@ -12,8 +13,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import java.util.Set;
-
-import static com.lawerens.commons.utils.CommonsUtils.sendTitle;
 
 public class ZonesTitleListener implements Listener {
 
@@ -37,9 +36,9 @@ public class ZonesTitleListener implements Listener {
 
             if (isPvP != wasPvP) {
                 if (isPvP) {
-                    sendTitle(player, "#ff0000&lZONA PRELIGROSA", "&7¡En esta zona hay #FB0857PvP&7!", 0, 6, 0);
+                    LawerensUtils.sendTitle(player, "#ff0000&lZONA PELIGROSA", "&7¡En esta zona hay #FB0857PvP&7!", 0, 6 * 20, 0);
                 } else {
-                    sendTitle(player, "#00ff00&lZONA SEGURA", "&7Has entrado en una #78FF33Zona Segura", 0, 6, 0);
+                    LawerensUtils.sendTitle(player, "#00ff00&lZONA SEGURA", "&7Has entrado en una #78FF33Zona Segura", 0, 6 * 20, 0);
                 }
                 break;
             }
